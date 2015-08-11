@@ -1,0 +1,15 @@
+{
+  "name":"chat",
+  "node":"0.6.12",
+  "author":"geekuillaume",
+  "dependencies": {
+  	"socket.io": "*",
+  	"express": "*",
+  	"jade": "*",
+    "consolidate": "*",
+    "swig": "^1.4.2"
+  	  },
+  "scripts": {
+  	"start": "node server.js"
+  }
+}

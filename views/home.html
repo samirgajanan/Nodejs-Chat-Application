@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div id="main" class="container">
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container"><a href="#" class="brand">Chat : Node.js + Socket.io</a></div>
+        </div>
+      </div>
+      <div id="chatEntries"></div>
+      <div id="entries" class="row">
+        <input type="text" id="messageInput">
+        <div class="btn-group">
+          <button id="submit" data-loading-text="Send" class="btn">Send</button>
+<!--           <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a id="edit" href="#modalPseudo" data-toggle="modal"><i class="icon-user"></i>Change name</a></li>
+            <li><a id="info" href="#modalInfos" data-toggle="modal"><i class="icon-info-sign"></i>Infos</a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div id="nbUsersDiv">
+        <p>There is <span id="nbUsers"></span> connected user(s).</p>
+      </div>
+    </div>
+  </body>
+  <div id="modalPseudo" class="modal fade">
+    <div class="modal-header">
+      <h3>Choose a name</h3>
+    </div>
+    <div class="modal-body">
+      <p>Choose a name :</p>
+      <input type="text" id="pseudoInput">
+      <div id="alertPseudo" class="alert alert-error">This name is already used ! Choose another one.</div>
+    </div>
+    <div class="modal-footer">
+      <button id="pseudoSubmit" class="btn btn-primary">Go to the chat</button>
+    </div>
+  </div>
+  <div id="modalInfos" class="modal fade">
+    <div class="modal-header">
+      <h3>Infos</h3>
+    </div>
+<!--     <div class="modal-body">
+      <p>	This application has been made with <a href="http://nodejs.org/">Node.js </a>, <a href="http://socket.io/">Socket.io</a>, <a href="http://expressjs.com/">Express </a>et <a href="http://jade-lang.com/">Jade</a>.</p>
+      <p>	She use <a href="http://twitter.github.com/bootstrap/">Bootstrap </a>from <a href="https://twitter.com/">Twitter</a>and<a hre="http://rocha.la/jQuery-slimScroll">SlimScroll</a>.</p>
+      <p>	The source has been published on Github under MIT license.</p>
+      <p>	This application has been made by <a href="http://geekuillau.me">Guillaume Besson - Geekuillaume</a>.</p>
+    </div> -->
+  </div>
+</html>
