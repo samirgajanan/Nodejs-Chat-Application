@@ -89,7 +89,8 @@ io.sockets.on('connection', function (socket) { // First connection
 			var pseudo;
 			pseudo = socket.nickname;
 			var index = pseudoArray.indexOf(pseudo);
-			pseudo.slice(index - 1, 1);
+			pseudoArray.splice(index, 1);
+			io.sockets.emit('connectedUsers', pseudoArray)
 		}
 	});
 });
