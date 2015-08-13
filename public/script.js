@@ -32,12 +32,26 @@ $(function() {
 	window.setInterval(time, 1000*10);
 	$("#alertPseudo").hide();
 	$('#modalPseudo').modal('show');
-	$("#pseudoSubmit").click(function() {setPseudo()});
+	$("#pseudoSubmit").click(function() {
+		setPseudo()
+	});
 	$("#chatEntries").slimScroll({height: '600px'});
-	submitButton.click(function() {sentMessage();});
+	submitButton.click(function() {
+		sentMessage();
+	});
 	setHeight();
 	$('#messageInput').keypress(function (e) {
-	if (e.which == 13) {sentMessage();}});
+		if (e.which == 13) {
+			sentMessage();
+		}
+	});
+
+	$('#pseudoInput').keypress(function (e) {
+		if (e.which == 13) {
+			setPseudo();
+		}
+	});
+
 });
 
 //Socket.io
