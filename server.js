@@ -47,13 +47,12 @@ io.sockets.on('connection', function (socket) { // First connection
 				socket.broadcast.emit('message', transmit);
 			else{
 				for(user in connUsersArray){
-					console.log("connUsersArray ---", connUsersArray[user])
 					if(data.user == connUsersArray[user].name){
 						io.sockets.connected[ connUsersArray[user].id ].emit('message', transmit);
 					}
 				}
 			}
-			console.log("user "+ transmit['pseudo'] +" said \""+data+"\"");
+			console.log("User "+ transmit['pseudo'] +" said \""+data+"\"");
 		}
 	});
 
