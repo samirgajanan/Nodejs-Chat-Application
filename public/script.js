@@ -43,6 +43,7 @@ $(function() {
 //Socket.io
 var socket = io.connect();
 
+
 socket.on('connect', function() {
 	console.log('connected');
 });
@@ -50,19 +51,23 @@ socket.on('connect', function() {
 // Got it
 socket.on('nbUsers', function(msg) {
 	$("#nbUsers").html(msg.nb);
+	userSelectBox()
 });
 
-socket.on('connectedUsers', function(user) {
-	console.log("User---", user)
+socket.on('connectedUsers', function(users) {
+	var userlist = '<option value="All">All</option>'
+	for(user in users){
+		userlist += '<option value='+ users[user] +'>' + users[user] + '</option>'
+	}
+	$('.connectedUser').html(userlist)
 });
 
 // Got it
 socket.on('message', function(data) {
 	addMessage(data['message'], data['pseudo'], new Date().toISOString(), false);
-	console.log(data);
 });
 
-//Help functions Got it
+// Help functions Got it
 function sentMessage() {
 	if (messageContainer.val() != "") 
 	{
@@ -71,11 +76,13 @@ function sentMessage() {
 			$('#modalPseudo').modal('show');
 		}
 		else 
-		{
-			socket.emit('message', messageContainer.val());
+		{	
+			var messageToServer = {msg:messageContainer.val(),user:$('.connectedUser').val()}
+			socket.emit('message', messageToServer);
 			addMessage(messageContainer.val(), "Me", new Date().toISOString(), true);
 			messageContainer.val('');
 			submitButton.button('loading');
+			$('.connectedUser').val('All')
 		}
 	}
 }
@@ -108,8 +115,6 @@ function setPseudo() {
 				$('#modalPseudo').modal('hide');
 				$("#alertPseudo").hide();
 				pseudo = $("#pseudoInput").val();
-				// activeUser.push(pseudo)
-				// console.log("activeUser >> ", activeUser)
 			}
 			else
 			{
@@ -126,4 +131,7 @@ function time() {
 function setHeight() {
 	$(".slimScrollDiv").height('603');
 	$(".slimScrollDiv").css('overflow', 'visible')
+}
+function userSelectBox() {
+
 }

@@ -10,9 +10,6 @@ var http = require('http'),
 	server = http.createServer(app), 
 	io = require('socket.io').listen(server);
 
-
-// var jade = require('jade');
-// var io = require('socket.io').listen(app);
 var pseudoArray = [];
 
 // Views Options
@@ -31,12 +28,13 @@ app.get('/', function(req, res){
   res.render('home.html');
 });
 server.listen(appPort);
-// app.listen(appPort);
 console.log("Server listening on port " + appPort);
 
 // Handle the socket.io connections
 
 var users = 0; //count the users
+var connUsersArray = [];
+var i=0
 
 io.sockets.on('connection', function (socket) { // First connection
 	users += 1; // Add 1 to the count
@@ -44,21 +42,37 @@ io.sockets.on('connection', function (socket) { // First connection
 	socket.on('message', function (data) { // Broadcast the message to all
 		if(pseudoSet(socket))
 		{
-			var transmit = {date : new Date().toISOString(), pseudo : socket.nickname, message : data};
-			socket.broadcast.emit('message', transmit);
+			var transmit = {date : new Date().toISOString(), pseudo : socket.nickname, message : data.msg};
+			if(data.user == 'All')
+				socket.broadcast.emit('message', transmit);
+			else{
+				for(user in connUsersArray){
+					console.log("connUsersArray ---", connUsersArray[user])
+					if(data.user == connUsersArray[user].name){
+						io.sockets.connected[ connUsersArray[user].id ].emit('message', transmit);
+					}
+				}
+			}
 			console.log("user "+ transmit['pseudo'] +" said \""+data+"\"");
 		}
 	});
 
+
 	// Got it
 	socket.on('setPseudo', function (data) { // Assign a name to the user
+		var connUsers = {};
+		
 		if (pseudoArray.indexOf(data) == -1) // Test if the name is already taken
 		{
 			pseudoArray.push(data);
+			connUsers.id = socket.id;
+			connUsers.name = data;
 			socket.nickname = data;
+			connUsersArray.push(connUsers)
+			
+			io.sockets.emit('connectedUsers', pseudoArray)
 			socket.emit('pseudoStatus', 'ok');
-			socket.emit('connectedUsers', pseudoArray)
-			console.log("user " + data + " connected");
+			console.log("User " + data + " connected");
 		}
 		else
 		{
